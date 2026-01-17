@@ -1,10 +1,10 @@
 import express from 'express';
 const cardRouter = express.Router();
-import {POST} from "../Controller/CardController.js"
+import {POST,GetDate,SignUp,Login} from "../Controller/CardController.js"
+import { checkvalidation } from "../Controller/Middleware/Authentication.js";
+import { adminOnly } from '../Controller/Middleware/Authentication.js';
 import multer from "multer";
 import path from "path";
-import Card from '../Modal/CardModal.js';
-
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "public/uploads");
@@ -23,11 +23,10 @@ cardRouter.post("/card/post",upload.single("image"),POST)
 cardRouter.get("/card",(req,res)=>{
   return res.render('Card')
 })
-cardRouter.post("/postdata",(req,res)=>{
+cardRouter.get('/getform',(req,res)=>{
+  return res.render('SingUp')
 })
-
-
-
-
-
+cardRouter.get("/card/GetData", checkvalidation("token"),adminOnly,GetDate);
+cardRouter.post('/signup',SignUp)
+cardRouter.post("/login",Login)
 export default cardRouter;

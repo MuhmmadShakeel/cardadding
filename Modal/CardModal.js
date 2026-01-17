@@ -12,7 +12,6 @@ const cardSchema=new mongoose.Schema({
         type:String,
         required:true
     }
-
 })
 const Card=mongoose.model("card",cardSchema)
 export default Card;
